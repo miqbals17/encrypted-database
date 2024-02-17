@@ -2,3 +2,7 @@ github.com/joho/godotenv v1.5.1 h1:7eLL/+HRGLY0ldzfGMeQkb7vMd0as4CfYvUVzLqw0N0=
 github.com/joho/godotenv v1.5.1/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa6DnEwAbqwq4=
 github.com/lib/pq v1.10.9 h1:YXG7RB+JIjhP29X+OtkiDnYaXQwpS4JEWq7dtCCRUEw=
 github.com/lib/pq v1.10.9/go.mod h1:AlVN5x4E4T544tWzH6hKfbfQvm3HdbOxrmggDNAPY9o=
+github.com/miqbals17/cryspy v0.0.0-20240216142222-2df3d3a055a4 h1:sxiCJ8q1lBrM+tp+EfdsdFcNTcQzvtRJdHQdWUc6qKA=
+github.com/miqbals17/cryspy v0.0.0-20240216142222-2df3d3a055a4/go.mod h1:Km3sI0850eejCT7Z0ZKWfFg20bJtnglLnKWYottamTw=
+github.com/miqbals17/randomizer v0.0.0-20240214015601-4ff5e15ca9d5 h1:D1gwL2usZuhXOwMFIN2Tvp0MzpTeRauYsDew4MV8+10=
+github.com/miqbals17/randomizer v0.0.0-20240214015601-4ff5e15ca9d5/go.mod h1:zNitz7aPdPUm17u+FKF571p32+YibSAy4pMeAX7XKrg=

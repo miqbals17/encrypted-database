@@ -8,10 +8,8 @@ import (
 
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
-)
-
-var (
-	DB_NAME = os.Getenv("DB_NAME")
+	"github.com/miqbals17/cryspy"
+	randomizer "github.com/miqbals17/randomizer"
 )
 
 type Employee struct {
@@ -28,10 +26,11 @@ type Employee struct {
 
 func main() {
 	var (
-		// ADDRESS     = os.Getenv("ADDRESS")
 		DB_USER     = os.Getenv("DB_USER")
 		DB_PASSWORD = os.Getenv("DB_PASSWORD")
 		DB_NAME     = os.Getenv("DB_NAME")
+		KEY         = os.Getenv("KEY")
+		IV          = os.Getenv("IV")
 	)
 
 	//Connect to database
@@ -73,6 +72,28 @@ func main() {
 	}
 
 	fmt.Println(employees)
+
+	//Insert encrypted data to database (with example data)
+	var newEmployee = Employee{
+		Id:            randomizer.RandomString(8),
+		Name:          "Yusuf Dwiyanto",
+		DOB:           "21 Juni 2000",
+		Sex:           "Laki-laki",
+		Address:       "Tlawong, Sawit, Boyolali, Jawa Tengah",
+		Religion:      "Islam",
+		MarriedStatus: "Belum Menikah",
+		Work:          "Pegawai Swasta",
+		BloodType:     "O+",
+	}
+
+	var encryptedObject = EncryptObject(newEmployee, KEY, IV)
+
+	_, errInsert := db.Exec("INSERT INTO employee VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9);", encryptedObject.Id, encryptedObject.Name, encryptedObject.DOB, encryptedObject.Sex, encryptedObject.Address, encryptedObject.Religion, encryptedObject.MarriedStatus, encryptedObject.Work, encryptedObject.BloodType)
+	if errInsert != nil {
+		log.Fatalf(errInsert.Error())
+	}
+
+	fmt.Println("Data berhasil ditambahkan!")
 }
 
 func init() {
@@ -80,4 +101,20 @@ func init() {
 	if err != nil {
 		log.Fatalf("Error loading .env file")
 	}
+}
+
+func EncryptObject(data Employee, KEY string, IV string) Employee {
+	encryptedData := Employee{
+		Id:            data.Id,
+		Name:          data.Name,
+		DOB:           fmt.Sprintf("%x", cryspy.EncryptCBC(data.DOB, KEY, IV)),
+		Sex:           data.Sex,
+		Address:       fmt.Sprintf("%x", cryspy.EncryptCBC(data.Address, KEY, IV)),
+		Religion:      fmt.Sprintf("%x", cryspy.EncryptCBC(data.Religion, KEY, IV)),
+		MarriedStatus: fmt.Sprintf("%x", cryspy.EncryptCBC(data.MarriedStatus, KEY, IV)),
+		Work:          fmt.Sprintf("%x", cryspy.EncryptCBC(data.Work, KEY, IV)),
+		BloodType:     fmt.Sprintf("%x", cryspy.EncryptCBC(data.BloodType, KEY, IV)),
+	}
+
+	return encryptedData
 }
